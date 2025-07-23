@@ -1,21 +1,15 @@
-import React, { useEffect, useState } from 'react';
+// pages/posts.tsx
+
+import React from 'react';
 import { PostProps } from '@/interfaces';
 import PostCard from '@/components/common/PostCard';
 import Header from '@/components/layout/Header';
 
-const PostsPage: React.FC = () => {
-  const [posts, setPosts] = useState<PostProps[]>([]);
+interface PostsPageProps {
+  posts: PostProps[];
+}
 
-  useEffect(() => {
-    const fetchPosts = async () => {
-      const res = await fetch('https://jsonplaceholder.typicode.com/posts');
-      const data = await res.json();
-      setPosts(data.slice(0, 10)); // Show only first 10 for demo
-    };
-
-    fetchPosts();
-  }, []);
-
+const PostsPage: React.FC<PostsPageProps> = ({ posts }) => {
   return (
     <>
       {/* <Header /> */}
@@ -33,6 +27,18 @@ const PostsPage: React.FC = () => {
       </div>
     </>
   );
+};
+
+// Static generation at build time
+export const getStaticProps = async () => {
+  const res = await fetch('https://jsonplaceholder.typicode.com/posts');
+  const data: PostProps[] = await res.json();
+
+  return {
+    props: {
+      posts: data.slice(0, 10), // Show only first 10 for demo
+    },
+  };
 };
 
 export default PostsPage;
