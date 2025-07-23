@@ -1,7 +1,8 @@
+// pages/users.tsx
 import React from 'react';
 import { UserProps } from '@/interfaces';
 import UserCard from '@/components/common/UserCard';
-import Header from '@/components/layout/Header';
+import Header from '@/components/layout/Header'; // Optional
 
 interface UsersPageProps {
   users: UserProps[];
@@ -27,7 +28,6 @@ const UsersPage: React.FC<UsersPageProps> = ({ users }) => {
   );
 };
 
-// Static generation function
 export const getStaticProps = async () => {
   const res = await fetch('https://jsonplaceholder.typicode.com/users');
   const users: UserProps[] = await res.json();
